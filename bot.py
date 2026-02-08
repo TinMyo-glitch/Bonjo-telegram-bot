@@ -19,7 +19,7 @@ def keep_alive():
     t.start()
 # ---------------------------------------
 
-TOKEN = 'မင်းရဲ့_BOT_TOKEN_ဒီမှာထည့်ပါ'
+TOKEN = '8298038885:AAFibdgnkESK4UVuEmYWUj-Hjo7Mm5B_rbc'
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
