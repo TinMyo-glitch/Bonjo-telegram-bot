@@ -34,15 +34,15 @@ def render_video_page(m3u8_url):
     </html>
     '''
 
-@app.route('/ch1')
+@app.route('/mwd_serie')
 def channel1():
     return render_video_page("http://203.81.84.130/hls/mwd_serie/index.m3u8")
 
-@app.route('/ch2')
+@app.route('/arirang_1ch')
 def channel2():
     return render_video_page("http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8")
 
-@app.route('/ch3')
+@app.route('/live_cnn')
 def channel3():
     return render_video_page("https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/playlist.m3u8")
 
