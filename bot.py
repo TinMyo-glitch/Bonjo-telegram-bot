@@ -60,7 +60,7 @@ bot = telebot.TeleBot(TOKEN)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
-    base_url = "https://မင်းရဲ့-render-url.onrender.com" # <--- ဒါကို အမှန်ပြင်ပါ
+    base_url = "https://bonjo-telegram-bot.onrender.com" # <--- ဒါကို အမှန်ပြင်ပါ
     
     btn1 = types.InlineKeyboardButton(text="📺 TVM (MWD)", web_app=types.WebAppInfo(url=f"{base_url}/ch1"))
     btn2 = types.InlineKeyboardButton(text="📺 Arirang Korea", web_app=types.WebAppInfo(url=f"{base_url}/ch2"))
