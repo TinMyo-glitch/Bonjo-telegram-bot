@@ -6,6 +6,40 @@ from threading import Thread
 
 # --- Render အတွက် Web Server နှင့် HTML ဖိုင်ချိတ်ဆက်ခြင်း ---
 app = Flask(__name__)
+@app.route('/ch1')
+def channel1():
+    # TVM အတွက် link ကို source ထဲမှာ ထည့်ပါ
+    link = "http://203.81.84.130/hls/mwd_serie/index.m3u8"
+    return render_video_page(link)
+
+@app.route('/Arirang_South_Korea')
+def channel2():
+    link = "http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8"
+    return render_video_page(link)
+
+@app.route('/CNN INDONESIA HD')
+def channel3():
+    link = "https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/chunklist_w596222982_b384000_sleng.m3u8"
+    return render_video_page(link)
+
+def render_video_page(m3u8_url):
+    # HTML ကို code ထဲမှာတင် တိုက်ရိုက် ရေးလိုက်တာ ပိုမြန်ပါတယ်
+    return f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+        <style>body {{ margin: 0; background: #000; }} .video-js {{ width: 100vw; height: 100vh; }}</style>
+    </head>
+    <body>
+        <video id="v" class="video-js vjs-default-skin" controls autoplay preload="auto">
+            <source src="{m3u8_url}" type="application/x-mpegURL">
+        </video>
+        <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
+    </body>
+    </html>
+    '''
 
 @app.route('/')
 def home():
@@ -28,18 +62,23 @@ bot = telebot.TeleBot(TOKEN)
 def send_welcome(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
     
-    # Render ကပေးထားတဲ့ သင့် Bot ရဲ့ URL ကို ဒီမှာ အမှန်ပြင်ထည့်ပါ
-    # ဥပမာ - https://bonjo-telegram-bot.onrender.com
-    my_web_url = "https://bonjo-telegram-bot.onrender.com"
+    # Render URL (သင့် URL ကို အမှန်ပြင်ရန်)
+    base_url = "https://your-bot-name.onrender.com"
     
-    # Web App ခလုတ်
-    web_app = types.WebAppInfo(url=my_web_url)
-    btn_live = types.InlineKeyboardButton(text="⚽ LIVE တိုက်ရိုက်ကြည့်ရန်", web_app=web_app)
+    # TVM ခလုတ်
+    web_app1 = types.WebAppInfo(url=f"{base_url}/TVM")
+    btn1 = types.InlineKeyboardButton(text="📺 TVM ကြည့်ရန်", web_app=web_app1)
     
-    # အရင်က ရှိခဲ့တဲ့ သာမန် Reply ခလုတ်တွေအစား Inline ခလုတ်ကို သုံးထားတာပါ
-    markup.add(btn_live)
+    # Arirang_South_Korea ခလုတ်
+    web_app2 = types.WebAppInfo(url=f"{base_url}/Arirang_South_Korea")
+    btn2 = types.InlineKeyboardButton(text="📺 Arirang_South_Korea ကြည့်ရန်", web_app=web_app2)
     
-    bot.reply_to(message, "မင်္ဂလာပါ! အောက်ကခလုတ်ကိုနှိပ်ပြီး Live Stream ကြည့်နိုင်ပါတယ်-", reply_markup=markup)
+    # CNN INDONESIA HD ခလုတ်
+    web_app3 = types.WebAppInfo(url=f"{base_url}/CNN INDONESIA HD")
+    btn3 = types.InlineKeyboardButton(text="📺 CNN INDONESIA HD ကြည့်ရန်", web_app=web_app3)
+    
+    markup.add(btn1, btn2, btn3)
+    bot.reply_to(message, "ကြည့်ရှုလိုသည့် Channel ကို ရွေးချယ်ပါ-", reply_markup=markup)
 
 # အခြား Message တွေကို လက်ခံတဲ့အပိုင်း (Optional)
 @bot.message_handler(func=lambda message: True)
