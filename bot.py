@@ -6,21 +6,13 @@ from flask import Flask, send_from_directory
 from threading import Thread
 
 app = Flask(__name__)
-# ... import လုပ်ထားတဲ့ ကုဒ်များ ...
 
-app = Flask(__name__)
-
-# --- ဒီနေရာမှာ ထည့်ပေးပါ ---
+# --- ပင်မစာမျက်နှာ (404 Error ပျောက်စေရန်) ---
 @app.route('/')
 def home():
     return "Bot is Running!"
-# -------------------------
 
-@app.route('/ch1')
-def channel1():
-    # ... channel 1 ကုဒ်များ ...
-
-# --- Video Player စနစ် (HLS.js သုံးထားသဖြင့် ပိုကောင်းပါသည်) ---
+# --- Video Player စနစ် ---
 def render_video_page(m3u8_url):
     return f'''
     <!DOCTYPE html>
@@ -47,16 +39,17 @@ def render_video_page(m3u8_url):
     </html>
     '''
 
-@app.route('/mwd_serie')
-def channel1():
+# --- Web App လမ်းကြောင်းများ (ခလုတ်ထဲက နာမည်တွေနဲ့ ကိုက်ညီအောင် ပြင်ထားသည်) ---
+@app.route('/ch1')
+def mwd_channel():
     return render_video_page("http://203.81.84.130/hls/mwd_serie/index.m3u8")
 
-@app.route('/arirang_1ch')
-def channel2():
+@app.route('/ch2')
+def arirang_channel():
     return render_video_page("http://amdlive.ctnd.com.edgesuite.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8")
 
-@app.route('/live_cnn')
-def channel3():
+@app.route('/ch3')
+def cnn_channel():
     return render_video_page("https://live.cnnindonesia.com/livecnn/smil:cnntv.smil/playlist.m3u8")
 
 def run():
@@ -73,8 +66,9 @@ bot = telebot.TeleBot(TOKEN)
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
-    base_url = "https://bonjo-telegram-bot.onrender.com" # <--- ဒါကို အမှန်ပြင်ပါ
+    base_url = "https://bonjo-telegram-bot.onrender.com"
     
+    # URL လမ်းကြောင်းများကို အပေါ်က app.route အတိုင်း /ch1, /ch2, /ch3 ပေးထားသည်
     btn1 = types.InlineKeyboardButton(text="📺 TVM (MWD)", web_app=types.WebAppInfo(url=f"{base_url}/ch1"))
     btn2 = types.InlineKeyboardButton(text="📺 Arirang Korea", web_app=types.WebAppInfo(url=f"{base_url}/ch2"))
     btn3 = types.InlineKeyboardButton(text="📺 CNN Indonesia", web_app=types.WebAppInfo(url=f"{base_url}/ch3"))
