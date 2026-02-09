@@ -1,3 +1,4 @@
+# အသစ်ပြန်ပတ်မည်
 import telebot
 from telebot import types
 import os
