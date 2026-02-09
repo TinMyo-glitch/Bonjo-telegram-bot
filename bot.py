@@ -6,6 +6,19 @@ from flask import Flask, send_from_directory
 from threading import Thread
 
 app = Flask(__name__)
+# ... import လုပ်ထားတဲ့ ကုဒ်များ ...
+
+app = Flask(__name__)
+
+# --- ဒီနေရာမှာ ထည့်ပေးပါ ---
+@app.route('/')
+def home():
+    return "Bot is Running!"
+# -------------------------
+
+@app.route('/ch1')
+def channel1():
+    # ... channel 1 ကုဒ်များ ...
 
 # --- Video Player စနစ် (HLS.js သုံးထားသဖြင့် ပိုကောင်းပါသည်) ---
 def render_video_page(m3u8_url):
