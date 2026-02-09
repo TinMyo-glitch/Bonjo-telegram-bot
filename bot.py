@@ -1,13 +1,10 @@
-# အသစ်ပြန်ပတ်မည်
-import telebot
-from telebot import types
-import os
-from flask import Flask, send_from_directory
-from threading import Thread
+# အပေါ်ဆုံးမှာ ဒါလေး ထည့်ထားပါ
+# Update Version: 1.1
+
+# ... import အပိုင်းများ ...
 
 app = Flask(__name__)
 
-# --- ပင်မစာမျက်နှာ (404 Error ပျောက်စေရန်) ---
 @app.route('/')
 def home():
     return "Bot is Running!"
